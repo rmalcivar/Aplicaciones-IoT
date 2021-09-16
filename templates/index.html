@@ -29,18 +29,16 @@
 	</h1>
 	
 	<button id = 'LED1On' type="button" onclick="LED1_On();">
-		<script>
-			function LED1_On() {
-		alert("Hola!![aqui ponen lo que quieran que aparesca al pulsar el boton]");
-			}
-		--
-		</script>
+		onclick='document.getElementById("sensor").innerHTML = "ENCENDIDO"'>
+		
 		LED1 ON!
 		
 	</button>
 
 	<button id = 'LED1Off' type="button" onclick="LED1_Off();">
+		onclick='document.getElementById("sensor").innerHTML = "APAGADO"'>
 		LED1_OFF!
+		
 	</button>
 
 	
