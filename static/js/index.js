@@ -25,27 +25,29 @@ function LED2_On() {
 	message = new Paho.MQTT.Message("ON");
     	message.destinationName = "r.manaba1994@gmail.com/sensor2";
     	client.send(message);
+  
 }
-
-}
-
-function LED2_Off() {
-	//alert("led on");
+function LED2_Off(){	
+	//alert("led off");
 	console.log("led2 off");
-	//document.getElementById("sensor").innerHTML="led on";
 	message = new Paho.MQTT.Message("OFF");
     	message.destinationName = "r.manaba1994@gmail.com/sensor2";
     	client.send(message);
+	//document.getElementById("sensor").innerHTML="led off";
 }
 
-function historial() {
-	//alert("led on");
+
+function historial(){	
+	//alert("led off");
 	console.log("historial");
-	//document.getElementById("sensor").innerHTML="led on";
 	message = new Paho.MQTT.Message("info");
     	message.destinationName = "r.manaba1994@gmail.com/historial";
     	client.send(message);
+	//document.getElementById("sensor").innerHTML="led off";
 }
+
+
+
 
 // Create a client instance
   //client = new Paho.MQTT.Client("postman.cloudmqtt.com", 14970);
@@ -72,22 +74,19 @@ function historial() {
     console.log("Conectado...");
 	
     client.subscribe("r.manaba1994@gmail.com/sensor1");
-    message = new Paho.MQTT.Message(" ");
+    message = new Paho.MQTT.Message("Sensor 1 activo");
     message.destinationName = "r.manaba1994@gmail.com/sensor1";
     client.send(message);
-	  
 
     client.subscribe("r.manaba1994@gmail.com/sensor2");
-    message = new Paho.MQTT.Message(" ");
+    message = new Paho.MQTT.Message("Sensor 2 activo");
     message.destinationName = "r.manaba1994@gmail.com/sensor2";
     client.send(message);
-	  
-	  
+
     client.subscribe("r.manaba1994@gmail.com/historial");
-    message = new Paho.MQTT.Message(" ");
-    message.destinationName = "r.manaba1994@gmail.com/historial";
-    client.send(message);
-	  
+
+
+	
   }
 
   function doFail(e){
@@ -104,22 +103,39 @@ function historial() {
 
   // called when a message arrives
   function onMessageArrived(message) {
-	  var topic=message.destinationName.split("/");
-	  var nombretopico=topic[1];
-	  
+    
+
+    var topic = message.destinationName.split("/");
+
+    var nombretopico = topic[1];
+
+  
     console.log("topico:"+nombretopico);
     console.log("onMessageArrived:"+message.payloadString);
-	  if(nombretopico=="sensor1"){
-	  document.getElementById("sensor").innerHTML=message.payloadString;
-	  }
 	  
-	  if(nombretopico=="sensor2"){
-	  document.getElementById("sensor2").innerHTML=message.payloadString;
-	  }
-	  
-	  
-	  if(nombretopico=="historial"){
-	  document.getElementById("hist").innerHTML=message.payloadString;
-	  }
+    if(nombretopico == "sensor1" ){
+
+      document.getElementById("sensor").innerHTML=message.payloadString;
+
+    }
+
+    if(nombretopico == "sensor2" ){
+
+      document.getElementById("sensor2").innerHTML=message.payloadString;
+
+    }
+
+    if(nombretopico == "historial" ){
+
+     
+        document.getElementById("hist").innerHTML=message.payloadString;
+
+      
+
+      
+    }
+
+
+
+   
   }
-  
