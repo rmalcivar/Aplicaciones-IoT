@@ -5,7 +5,7 @@ function LED1_On() {
 	console.log("led on");
 	//document.getElementById("sensor").innerHTML="led on";
 	message = new Paho.MQTT.Message("ON");
-    	message.destinationName = "r.manaba1994@gmail.com/test";
+    	message.destinationName = "r.manaba1994@gmail.com/sensor1";
     	client.send(message);
   
 }
@@ -13,7 +13,7 @@ function LED1_Off(){
 	//alert("led off");
 	console.log("led off");
 	message = new Paho.MQTT.Message("OFF");
-    	message.destinationName = "r.manaba1994@gmail.com/test";
+    	message.destinationName = "r.manaba1994@gmail.com/sensor1";
     	client.send(message);
 	//document.getElementById("sensor").innerHTML="led off";
 }
@@ -23,21 +23,29 @@ function LED2_On() {
 	console.log("led2 on");
 	//document.getElementById("sensor").innerHTML="led on";
 	message = new Paho.MQTT.Message("ON");
-    	message.destinationName = "r.manaba1994@gmail.com/test1";
+    	message.destinationName = "r.manaba1994@gmail.com/sensor2";
     	client.send(message);
 }
 
 }
 
-function LED2_On() {
+function LED2_Off() {
 	//alert("led on");
 	console.log("led2 off");
 	//document.getElementById("sensor").innerHTML="led on";
 	message = new Paho.MQTT.Message("OFF");
-    	message.destinationName = "r.manaba1994@gmail.com/test1";
+    	message.destinationName = "r.manaba1994@gmail.com/sensor2";
     	client.send(message);
 }
 
+function historial() {
+	//alert("led on");
+	console.log("historial");
+	//document.getElementById("sensor").innerHTML="led on";
+	message = new Paho.MQTT.Message("info");
+    	message.destinationName = "r.manaba1994@gmail.com/historial";
+    	client.send(message);
+}
 
 // Create a client instance
   //client = new Paho.MQTT.Client("postman.cloudmqtt.com", 14970);
@@ -63,11 +71,23 @@ function LED2_On() {
     // Once a connection has been made, make a subscription and send a message.
     console.log("Conectado...");
 	
-    client.subscribe("r.manaba1994@gmail.com/test");
+    client.subscribe("r.manaba1994@gmail.com/sensor1");
     message = new Paho.MQTT.Message(" ");
-    message.destinationName = "r.manaba1994@gmail.com/test";
+    message.destinationName = "r.manaba1994@gmail.com/sensor1";
     client.send(message);
-	
+	  
+
+    client.subscribe("r.manaba1994@gmail.com/sensor2");
+    message = new Paho.MQTT.Message(" ");
+    message.destinationName = "r.manaba1994@gmail.com/sensor2";
+    client.send(message);
+	  
+	  
+    client.subscribe("r.manaba1994@gmail.com/historial");
+    message = new Paho.MQTT.Message(" ");
+    message.destinationName = "r.manaba1994@gmail.com/historial";
+    client.send(message);
+	  
   }
 
   function doFail(e){
@@ -84,7 +104,22 @@ function LED2_On() {
 
   // called when a message arrives
   function onMessageArrived(message) {
+	  var topic=message.destinationName.split("/");
+	  var nombretopico=topic[1];
+	  
+    console.log("topico:"+nombretopico);
     console.log("onMessageArrived:"+message.payloadString);
+	  if(nombretopico=="sensor1"){
 	  document.getElementById("sensor").innerHTML=message.payloadString;
+	  }
+	  
+	  if(nombretopico=="sensor2"){
+	  document.getElementById("sensor2").innerHTML=message.payloadString;
+	  }
+	  
+	  
+	  if(nombretopico=="historial"){
+	  document.getElementById("hist").innerHTML=message.payloadString;
+	  }
   }
   
